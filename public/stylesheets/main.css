@@ -3,7 +3,8 @@
 }
 
 .thumbnail {
-    padding: 0;
+    padding: 15px;
+    border: 2px solid #ddd;
 }
 
 .thumbnail .caption-full {
@@ -20,4 +21,18 @@
 
 .navbar {
     border-radius: 0px;
+}
+
+.jumbotron .container h1{
+    text-align: center;
+    padding-bottom:  5px;
+    border-bottom: 2px solid #ddd;
+}
+
+.jumbotron .container p{
+    text-align: center;
+}
+
+.jumbotron {
+    background-color:  white;
 }
