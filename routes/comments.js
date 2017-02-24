@@ -1,27 +1,27 @@
 var express = require("express");
-var router = express.Router({mergeParams:true}); //so we can access the params like "id" from "/campgrounds/:id/"
-var Campground = require("../models/campground");
+var router = express.Router({mergeParams:true}); //so we can access the params like "id" from "/articles/:id/"
+var Article = require("../models/article");
 var Comment = require("../models/comment");
 var middleware = require('../middleware');
 
 // comments new
 
 router.get("/new",middleware.isLoggedIn,function(req,res){
-    //find campground by id and send hte information
-    Campground.findById(req.params.id,function(err, campground){
+    //find article by id and send hte information
+    Article.findById(req.params.id,function(err, article){
         if(err){
             console.log(err);
             req.flash("error","Error: "+err.message);
         } else {
-            res.render("comments/new",{campground: campground});
+            res.render("comments/new",{article: article});
         }
     });
 });
 
 // comments create
 router.post("/",middleware.isLoggedIn,function(req,res){
-   // look up campground using ID
-   Campground.findById(req.params.id,function(err, campground) {
+   // look up article using ID
+   Article.findById(req.params.id,function(err, article) {
        if(err){
            console.log(err);
        } else {
@@ -33,13 +33,14 @@ router.post("/",middleware.isLoggedIn,function(req,res){
                 } else {
                     comment.author.id = req.user._id;
                     comment.author.username = req.user.username;
+                    comment.date = require('dateformat')(Date(), "dddd, mmmm dS, yyyy, h:MM:ss TT")
                     comment.save();
-                    campground.comments.push(comment);
-                    campground.save();
-                    res.redirect("/campgrounds/"+campground._id);
+                    article.comments.push(comment);
+                    article.save();
+                    res.redirect("/articles/"+article._id);
                 }
             });
-           //connect new comment to campground
+           //connect new comment to article
            
            //redirect campground show page
        }
@@ -53,7 +54,7 @@ router.get("/:comment_id/edit",middleware.checkCommentOwnership,function(req,res
         if(err){
             res.redirect("back");
         }else {
-            res.render("comments/edit",{campground_id:req.params.id,comment:foundComment});
+            res.render("comments/edit",{article_id:req.params.id,comment:foundComment});
         }
     })
 });
@@ -65,7 +66,7 @@ router.put("/:comment_id",middleware.checkCommentOwnership,function(req,res){
             req.flash("error","Error: could not update comment : "+err.message);
             res.redirect("back");
         } else {
-            res.redirect("/campgrounds/"+req.params.id);
+            res.redirect("/articles/"+req.params.id);
         }
     })
 });
@@ -78,7 +79,7 @@ router.delete("/:comment_id",middleware.checkCommentOwnership,function(req,res){
             res.redirect("back");
         } else {
             req.flash("success","Comment deleted");
-            res.redirect("/campgrounds/"+req.params.id);
+            res.redirect("/articles/"+req.params.id);
         }
     });
 });

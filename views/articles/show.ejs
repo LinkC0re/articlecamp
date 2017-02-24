@@ -3,7 +3,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-3">
-            <p class="lead">YelpCamp</p>
+            <p class="lead">ArticleCamp</p>
             <div class="list-group">
                 <li class="list-group-item active">Info 1</li>
                 <li class="list-group-item">Info 2</li>
@@ -12,15 +12,14 @@
         </div>
         <div class="col-md-9">
             <div class="thumbnail">
-                <img class="img-responsive" src= "<%= campground.image%>">
+                <img class="img-responsive" src= "<%= article.image%>">
                 <div class="caption-full">
-                    <h4 class="pull-right"><%= campground.price%>$/Night</h4>
-                    <h4></h4><a href=""><%=campground.name %></a></h4>
-                    <p><%= campground.description %></p>
-                    <p><em>Submitted by <%= campground.author.username%></em></p>
-                    <% if (currentUser && campground.author.id.equals(currentUser._id)){ %>
-                        <a href="/campgrounds/<%= campground._id%>/edit" class="btn btn-xs btn-warning">Edit</a>
-                        <form class="delete-form" action="/campgrounds/<%= campground._id%>?_method=DELETE" method="POST">
+                    <h4></h4><a href=""><%=article.name %></a></h4>
+                    <p><%= article.description %></p>
+                    <p><em>Submitted by <%= article.author.username%></em></p>
+                    <% if (currentUser && article.author.id.equals(currentUser._id)){ %>
+                        <a href="/articles/<%= article._id%>/edit" class="btn btn-xs btn-warning">Edit</a>
+                        <form class="delete-form" action="/articles/<%= article._id%>?_method=DELETE" method="POST">
                             <button class="btn btn-xs btn-danger">Delete</button>
                         </form>
                     <% }%>
@@ -28,18 +27,18 @@
             </div>
             <div class="well">
                 <div class="text-right">
-                    <a href="/campgrounds/<%= campground._id %>/comments/new" class ="btn btn-success">Comment</a>
+                    <a href="/articles/<%= article._id %>/comments/new" class ="btn btn-success">Comment</a>
                 </div>
                 <hr>
-                <% campground.comments.forEach(function(comment){ %>
+                <% article.comments.forEach(function(comment){ %>
                 <div class="row">
                     <div class="col-md-12">
                         <strong><%= comment.author.username %></strong> 
-                        <span class="pull-right">10 days ago</span>
+                        <span class="pull-right"><%= comment.date %></span>
                         <p><%= comment.text %></p>
                         <% if (currentUser && comment.author.id.equals(currentUser._id)){ %>
-                            <a href="/campgrounds/<%=campground._id%>/comments/<%=comment._id%>/edit" class="btn btn-xs btn-warning">Edit</a>
-                            <form class="delete-form" action="/campgrounds/<%=campground._id%>/comments/<%=comment._id%>?_method=DELETE" method="POST">
+                            <a href="/articles/<%=article._id%>/comments/<%=comment._id%>/edit" class="btn btn-xs btn-warning">Edit</a>
+                            <form class="delete-form" action="/articles/<%=article._id%>/comments/<%=comment._id%>?_method=DELETE" method="POST">
                                 <button class="btn btn-danger btn-xs">Delete</button>
                             </form>
                         <% } %>

@@ -1,16 +1,16 @@
 var express = require("express");
 var router = express.Router();
-var Campground = require("../models/campground");
+var Article = require("../models/article");
 var middleware = require("../middleware");//it will automatically load ""../middleware/index.js" because of name index.js
 
 router.get("/",function(req,res){
    
-    Campground.find({},function (err, allCampgrounds){
+    Article.find({},function (err, allArticles){
         if(err){
             console.log(err);
         }
         else{
-            res.render("campgrounds/index",{campgrounds:allCampgrounds});
+            res.render("articles/index",{articles:allArticles});
         }
     });
     //res.render("campgrounds",{campgrounds:campgrounds});
@@ -20,7 +20,6 @@ router.get("/",function(req,res){
 router.post("/",middleware.isLoggedIn,function(req,res){
     // get data from form and add to campgrounds array
     var name = req.body.name;
-    var price = req.body.price;
     var imageUrl = req.body.imageUrl;
     var desc = req.body.description;
     var author = {
@@ -28,14 +27,14 @@ router.post("/",middleware.isLoggedIn,function(req,res){
         username: req.user.username
     };
     // redirect back to campgrounds page
-    var newCampground = {name:name,price:price,image:imageUrl,description:desc , author:author};
+    var newArticle = {name:name,image:imageUrl,description:desc , author:author};
     //campgrounds.push(newCampground);
-    Campground.create(newCampground, function(err, newlyCreated){
+    Article.create(newArticle, function(err, newlyCreated){
        if(err){
            console.log(err);
        } 
        else{
-           res.redirect("/campgrounds");
+           res.redirect("/articles");
        }
     });
 
@@ -43,50 +42,50 @@ router.post("/",middleware.isLoggedIn,function(req,res){
 
 // NEW
 router.get("/new",middleware.isLoggedIn,function(req,res){
-    res.render("campgrounds/new");
+    res.render("articles/new");
 });
 
 // SHOW
 router.get("/:id",function(req,res){
-    Campground.findById(req.params.id).populate("comments").exec( function(err,foundCampground){
+    Article.findById(req.params.id).populate("comments").exec( function(err,foundArticle){
         if(err){
             console.log(err);
         }
         else{
-            res.render("campgrounds/show",{campground: foundCampground});
+            res.render("articles/show",{article: foundArticle});
         }
     });
 });
 
 // EDIT
-router.get("/:id/edit",middleware.checkCampgroundOwnership,function(req,res){
-    Campground.findById(req.params.id,function(err,foundCamp){
+router.get("/:id/edit",middleware.checkArticleOwnership,function(req,res){
+    Article.findById(req.params.id,function(err,foundArticle){
        if(err){
-           res.redirect("/campgrounds");
+           res.redirect("/articles");
        } else {
-           res.render("campgrounds/edit",{campground:foundCamp});
+           res.render("articles/edit",{article:foundArticle});
        }
     });
 });
 
 // UPDATE
-router.put("/:id",middleware.checkCampgroundOwnership,function(req,res){
-    Campground.findByIdAndUpdate(req.params.id,req.body.campground, function(err,updatedCampground){
+router.put("/:id",middleware.checkArticleOwnership,function(req,res){
+    Article.findByIdAndUpdate(req.params.id,req.body.article, function(err,updatedArticle){
         if(err){
-            res.redirect("/campgrounds");
+            res.redirect("/articles");
         } else {
-            res.redirect("/campgrounds/"+req.params.id);
+            res.redirect("/articles/"+req.params.id);
         }
     });
 });
 
 // DESTROY
-router.delete("/:id",middleware.checkCampgroundOwnership,function(req,res){
-    Campground.findByIdAndRemove(req.params.id,function(err){
+router.delete("/:id",middleware.checkArticleOwnership,function(req,res){
+    Article.findByIdAndRemove(req.params.id,function(err){
         if(err){
-            res.redirect("/campgrounds");
+            res.redirect("/articles");
         } else {
-            res.redirect("/campgrounds");
+            res.redirect("/articles");
         }
     })
 });

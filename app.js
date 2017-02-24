@@ -6,14 +6,14 @@ var express     = require("express"),
     LocalStrategy = require("passport-local"),
     methodOverride = require("method-override"),
     flash       = require("connect-flash"),
-    Campground  = require("./models/campground"),
+    Article  = require("./models/article"),
     Comment     = require("./models/comment"),
     User        = require("./models/user"),
     seedDB      = require("./seed");
     
 var indexRoutes = require("./routes/index"),
     commentsRoutes = require("./routes/comments"),
-    campgroundsRoutes = require("./routes/campgrounds");
+    articlesRoutes = require("./routes/articles");
 
 //mongoose.connect("mongodb://localhost/yelp_camp");
 mongoose.connect(process.env.DATABASEURL);//environment variable for the database url
@@ -50,9 +50,9 @@ app.use(function(req,res,next){
 
 //requiring routes
 app.use(indexRoutes);
-app.use("/campgrounds",campgroundsRoutes); // so every route in campgroundRoutes will start with /campgrounds
-app.use("/campgrounds/:id/comments",commentsRoutes);
+app.use("/articles",articlesRoutes); // so every route in campgroundRoutes will start with /campgrounds
+app.use("/articles/:id/comments",commentsRoutes);
 
 app.listen(process.env.PORT,process.env.IP, function(){
-    console.log("The YelpCamp Server has started!");
+    console.log("The ArticleCamp Server has started!");
 });
