@@ -15,7 +15,7 @@ var indexRoutes = require("./routes/index"),
     commentsRoutes = require("./routes/comments"),
     articlesRoutes = require("./routes/articles");
 
-//mongoose.connect("mongodb://localhost/yelp_camp");
+//mongoose.connect("mongodb://localhost/articlecamp");
 mongoose.connect(process.env.DATABASEURL);//environment variable for the database url
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine","ejs");
@@ -50,7 +50,7 @@ app.use(function(req,res,next){
 
 //requiring routes
 app.use(indexRoutes);
-app.use("/articles",articlesRoutes); // so every route in campgroundRoutes will start with /campgrounds
+app.use("/articles",articlesRoutes); // so every route in articleRoutes will start with /articles
 app.use("/articles/:id/comments",commentsRoutes);
 
 app.listen(process.env.PORT,process.env.IP, function(){

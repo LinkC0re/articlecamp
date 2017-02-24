@@ -42,7 +42,7 @@ router.post("/",middleware.isLoggedIn,function(req,res){
             });
            //connect new comment to article
            
-           //redirect campground show page
+           //redirect article show page
        }
    });
    

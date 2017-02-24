@@ -21,14 +21,14 @@ var data = [
     ];
 
 function seedDB(){
-    // Remove all campgrounds
+    // Remove all articles
     Article.remove({},function(err){
         if(err){
             console.log(err);
         } else{
-            // Add a few campgrounds
+            // Add a few articles
             addArticles();
-            console.log("Removed all campgrounds");
+            console.log("Removed all articles");
         }
     });
     
@@ -43,7 +43,7 @@ function addArticles(){
                    if(err){
                        console.log(err);
                    } else {
-                       console.log("Added the campground "+article);
+                       console.log("Added the article "+article);
                        
                        // Create a comment
                        Comment.create(

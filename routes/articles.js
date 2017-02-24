@@ -13,12 +13,12 @@ router.get("/",function(req,res){
             res.render("articles/index",{articles:allArticles});
         }
     });
-    //res.render("campgrounds",{campgrounds:campgrounds});
+    //res.render("articles",{articles:articles});
 });
 
 // new
 router.post("/",middleware.isLoggedIn,function(req,res){
-    // get data from form and add to campgrounds array
+    // get data from form and add to articles array
     var name = req.body.name;
     var imageUrl = req.body.imageUrl;
     var desc = req.body.description;
@@ -26,9 +26,9 @@ router.post("/",middleware.isLoggedIn,function(req,res){
         id: req.user._id,
         username: req.user.username
     };
-    // redirect back to campgrounds page
+    // redirect back to articles page
     var newArticle = {name:name,image:imageUrl,description:desc , author:author};
-    //campgrounds.push(newCampground);
+    //articles.push(newArticle);
     Article.create(newArticle, function(err, newlyCreated){
        if(err){
            console.log(err);
@@ -99,11 +99,11 @@ router.delete("/:id",middleware.checkArticleOwnership,function(req,res){
 
 // function checkAuthorization(req,res,next){
 //     if(req.isAuthenticated()){
-//         Campground.findById(req.params.id,function(err,foundCamp){
+//         Article.findById(req.params.id,function(err,foundarticle){
 //             if(err){
 //                 res.redirect("back");
 //             } else {
-//                 if(foundCamp.author.id.equals(req.user._id)){
+//                 if(foundarticle.author.id.equals(req.user._id)){
 //                     next();
 //                 } else {
 //                     res.redirect("back");
